@@ -54,6 +54,7 @@ class CharacterModel(Model):
     potentialRanks = fields.JSONField(null=True)
     favorKeyFrames = fields.JSONField(null=True)
     allSkillLvlup = fields.JSONField(null=True)
+    displayTokenDict = fields.JSONField(null=True)
 
     class Meta:
         table = "character"
@@ -162,6 +163,7 @@ class ItemModel(Model):
     stageDropList = fields.JSONField(null=True)
     buildingProductList = fields.JSONField(null=True)
     hideInItemGet = fields.BooleanField(null=True)
+    voucherRelateList = fields.JSONField(null=True)
 
     class Meta:
         table = "item"
@@ -321,8 +323,8 @@ class StageModel(Model):
     startButtonOverrideId = fields.CharField(null=True, max_length=255)
     isStagePatch = fields.BooleanField(null=True)
     mainStageId = fields.CharField(null=True, max_length=255)
-
     extra_can_use = fields.BooleanField(null=True)
+    canContinuousBattle = fields.BooleanField(null=True)
 
     class Meta:
         table = "stage"
