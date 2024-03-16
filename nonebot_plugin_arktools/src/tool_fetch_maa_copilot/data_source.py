@@ -5,8 +5,9 @@ from datetime import datetime
 from typing import List, Dict, Tuple, Optional
 
 import httpx
-from nonebot import logger
-from nonebot_plugin_imageutils import text2image
+from nonebot import logger, require
+require("nonebot_plugin_htmlrender")
+from nonebot_plugin_htmlrender import text_to_pic  # noqa: E402
 
 from ..core.database.plugin_sqlite import MAACopilotSubsModel
 from ..exceptions import MAAFailedResponseException, MAANoResultException
@@ -100,7 +101,9 @@ async def process_copilot_data(data: Dict) -> Tuple[str, str, str, str]:
     return title, details, stage, operators_str
 
 
-async def build_result_image(title: str, details: str, stage: str, operators_str: str) -> BytesIO:
+async def build_result_image(title: str, details: str, stage: str, operators_str: str) -> bytes:
+    """
+    # TODO from nonebot_plugin_imageutils import text2image
     text = (
         f"[size=32][b][color=white]{title}[/color][/b][/size]\n"
         f"[size=16][color=white]作业简介: {details}[/color][/size]\n\n"
@@ -116,6 +119,16 @@ async def build_result_image(title: str, details: str, stage: str, operators_str
     img_bytes = BytesIO()
     img.save(img_bytes, format="png")
     return img_bytes
+    """
+
+    text = (
+        f"{title}\n"
+        f"作业简介: {details}\n\n"
+        f"关卡名: {stage}\n\n"
+        f"阵容: {operators_str}\n\n"
+    )
+    img = await text_to_pic(text)
+    return img
 
 
 async def add_maa_sub(group_id: str, keywords: str) -> str:

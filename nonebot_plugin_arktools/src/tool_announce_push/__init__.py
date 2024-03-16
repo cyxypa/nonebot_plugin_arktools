@@ -2,13 +2,16 @@
 from pathlib import Path
 
 from aiofiles import open as aopen
-from nonebot import logger, get_bot, on_command, get_driver
+from nonebot import logger, get_bot, on_command, get_driver, require
 from nonebot.adapters.onebot.v11 import Bot, MessageSegment, Message
 from nonebot.exception import ActionFailed
 from nonebot.params import CommandArg
 from nonebot.plugin import PluginMetadata
-from nonebot_plugin_apscheduler import scheduler
-from nonebot_plugin_htmlrender import html_to_pic
+
+require("nonebot_plugin_apscheduler")
+require("nonebot_plugin_htmlrender")
+from nonebot_plugin_apscheduler import scheduler  # noqa: E402
+from nonebot_plugin_htmlrender import html_to_pic  # noqa: E402
 
 from .data_source import get_news
 from ..configs.scheduler_config import SchedulerConfig
